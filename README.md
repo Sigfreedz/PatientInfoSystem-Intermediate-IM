@@ -19,7 +19,7 @@ Diagnostic Clinic Database & CRUD Interface
 |--------|----------------|
 | [Name] | Database Design, Normalization, SQL Queries |
 | [Name] | UI |
-| [Name] | Documentation, ERD, Demo Video, Presentation |
+| [Name] | Documentation, ERD, Presentation |
 
 ## 📋 Rubric Alignment
 - ✅ 6 Tables (5–8 required) | ✅ UNF→3NF Normalization | ✅ 20+ Records/Table
