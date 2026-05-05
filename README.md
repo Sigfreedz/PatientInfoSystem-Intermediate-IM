@@ -3,7 +3,7 @@ Diagnostic Clinic Database & CRUD Interface
 
 ## ️ Tech Stack
 - **DBMS:** MySQL (XAMPP)
-- **Backend/UI: ---
+- **Backend/UI**: ---
 - **Version Control:** GitHub
 
 ## 📥 Setup Instructions
