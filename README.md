@@ -18,7 +18,7 @@ Diagnostic Clinic Database & CRUD Interface
 | Member | Responsibility |
 |--------|----------------|
 | [Name] | Database Design, Normalization, SQL Queries |
-| [Name] | CRUD UI (PHP/Flask), Forms, Routing |
+| [Name] | UI |
 | [Name] | Documentation, ERD, Demo Video, Presentation |
 
 ## 📋 Rubric Alignment
