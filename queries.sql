@@ -188,6 +188,7 @@ SET contact = '09179998888',
 WHERE patient_id = 'PAT-001';
 
 -- Q19: UPDATE - Mark pending orders as completed
+-- If completion timestamps are needed, add a completed_at column; this keeps created_at intact
 UPDATE test_orders
 SET status = 'COMPLETED'
 WHERE status = 'PENDING'
@@ -206,4 +207,4 @@ WHERE status = 'CANCELLED';
 -- Example cleanup: remove PAT-004's fecalysis order
 DELETE FROM test_orders
 WHERE patient_id = 'PAT-004'
-  AND test_id = (SELECT test_id FROM test_catalog WHERE test_name = 'FECALYSIS');
+  AND test_id = (SELECT test_id FROM test_catalog WHERE test_name = 'FECALYSIS' LIMIT 1);
