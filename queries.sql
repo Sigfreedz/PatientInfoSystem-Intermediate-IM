@@ -189,7 +189,7 @@ WHERE patient_id = 'PAT-001';
 
 -- Q19: UPDATE - Mark pending orders as completed
 -- This update only changes status; order_date and created_at remain unchanged
--- Add a completed_at column if you need to record when completion occurred
+-- Completion time is not captured in this schema; add a completed_at column if needed
 -- For concurrent systems, run this inside a transaction as needed
 UPDATE test_orders
 SET status = 'COMPLETED'
@@ -208,12 +208,13 @@ WHERE status = 'CANCELLED';
 -- Q21: DELETE - Remove a specific test order for a patient
 -- Example cleanup: remove PAT-004's fecalysis order
 -- Defensive: limit to one test_id in case of duplicate names (lowest test_id selected)
+-- test_name uses a case-insensitive collation in schema.sql
 DELETE FROM test_orders
 WHERE patient_id = 'PAT-004'
   AND test_id = (
       SELECT test_id
       FROM test_catalog
-      WHERE UPPER(test_name) = 'FECALYSIS'
+      WHERE test_name = 'FECALYSIS'
       ORDER BY test_id
       LIMIT 1
   );
