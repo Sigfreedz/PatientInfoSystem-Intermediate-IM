@@ -19,7 +19,7 @@ WHERE age BETWEEN 20 AND 30
 ORDER BY age, last_name;
 
 -- Q3: Search patients by location (LIKE operator)
-SELECT patient_id, first_name, last_name, address
+SELECT patient_id, first_name, last_name, address, contact
 FROM patients
 WHERE address LIKE '%Metro Manila%'
    OR address LIKE '%Cebu%'
@@ -189,8 +189,7 @@ WHERE patient_id = 'PAT-001';
 
 -- Q19: UPDATE - Mark pending orders as completed
 UPDATE test_orders
-SET status = 'COMPLETED',
-    created_at = CURRENT_TIMESTAMP
+SET status = 'COMPLETED'
 WHERE status = 'PENDING'
   AND order_date <= CURDATE() - INTERVAL 7 DAY;
 
@@ -204,6 +203,7 @@ DELETE FROM test_orders
 WHERE status = 'CANCELLED';
 
 -- Q21: DELETE - Remove a specific test order for a patient
+-- test_id 3 corresponds to FECALYSIS in test_catalog
 DELETE FROM test_orders
 WHERE patient_id = 'PAT-004'
   AND test_id = 3;
