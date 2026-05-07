@@ -207,7 +207,13 @@ WHERE status = 'CANCELLED';
 
 -- Q21: DELETE - Remove a specific test order for a patient
 -- Example cleanup: remove PAT-004's fecalysis order
--- test_name is UNIQUE in test_catalog, so this subquery returns at most one row
+-- Defensive: limit to one test_id in case of duplicate names
 DELETE FROM test_orders
 WHERE patient_id = 'PAT-004'
-  AND test_id = (SELECT test_id FROM test_catalog WHERE UPPER(test_name) = 'FECALYSIS');
+  AND test_id = (
+      SELECT test_id
+      FROM test_catalog
+      WHERE UPPER(test_name) = 'FECALYSIS'
+      ORDER BY test_id
+      LIMIT 1
+  );
