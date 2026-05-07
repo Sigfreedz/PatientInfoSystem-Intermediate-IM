@@ -188,7 +188,7 @@ SET contact = '09179998888',
 WHERE patient_id = 'PAT-001';
 
 -- Q19: UPDATE - Mark pending orders as completed
--- This update only changes status; created_at remains the original creation timestamp
+-- This update only changes status; order_date and created_at remain unchanged
 -- Add a completed_at column if you need to record when completion occurred
 -- For concurrent systems, run this inside a transaction as needed
 UPDATE test_orders
@@ -207,7 +207,7 @@ WHERE status = 'CANCELLED';
 
 -- Q21: DELETE - Remove a specific test order for a patient
 -- Example cleanup: remove PAT-004's fecalysis order
--- Defensive: limit to one test_id in case of duplicate names
+-- Defensive: limit to one test_id in case of duplicate names (lowest test_id selected)
 DELETE FROM test_orders
 WHERE patient_id = 'PAT-004'
   AND test_id = (
