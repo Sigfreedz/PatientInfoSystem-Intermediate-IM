@@ -16,64 +16,54 @@ ORDER BY last_name, first_name;
 SELECT patient_id, CONCAT(first_name, ' ', last_name) AS full_name, age, address
 FROM patients
 WHERE age BETWEEN 20 AND 30
-ORDER BY age;
+ORDER BY age, last_name;
 
 -- Q3: Search patients by location (LIKE operator)
-SELECT patient_id, first_name, last_name, address, contact
+SELECT patient_id, first_name, last_name, address
 FROM patients
 WHERE address LIKE '%Metro Manila%'
    OR address LIKE '%Cebu%'
    OR address LIKE '%Davao%';
 
--- Q4: List all available tests with prices (FROM test_catalog)
+-- Q4: List all available tests with prices (ORDER BY)
 SELECT test_id, test_name, price, description
 FROM test_catalog
 ORDER BY price DESC;
 
--- Q5: Show test orders for a specific patient (Filter by patient_id)
+-- Q5: List premium tests (price filter)
+SELECT test_id, test_name, price
+FROM test_catalog
+WHERE price >= 250
+ORDER BY price DESC;
+
+-- Q6: Show distinct order statuses (DISTINCT)
+SELECT DISTINCT status
+FROM test_orders
+ORDER BY status;
+
+-- Q7: List orders from year 2024 (Date function)
 SELECT order_id, patient_id, test_id, order_date, status
 FROM test_orders
-WHERE patient_id = 'PAT-004'
+WHERE YEAR(order_date) = 2024
 ORDER BY order_date DESC;
 
--- Q6: Display CBC results for completed orders only
-SELECT c.cbc_id, c.order_id, c.hemoglobin, c.hematocrit, c.platelets
-FROM cbc_results c
-JOIN test_orders o ON c.order_id = o.order_id
-WHERE o.status = 'COMPLETED'
-ORDER BY c.hemoglobin DESC;
+-- Q8: Display CBC results with low hemoglobin
+SELECT cbc_id, order_id, hemoglobin, hematocrit, platelets
+FROM cbc_results
+WHERE hemoglobin < 13.0
+ORDER BY hemoglobin;
 
--- Q7: Find patients who had Urinalysis with abnormal protein levels
-SELECT p.patient_id, CONCAT(p.first_name, ' ', p.last_name) AS patient_name, 
-       u.ph, u.protein, u.other_findings
-FROM urinalysis_results u
-JOIN test_orders o ON u.order_id = o.order_id
-JOIN patients p ON o.patient_id = p.patient_id
-WHERE u.protein != 'Negative'
-ORDER BY u.protein;
+-- Q9: Urinalysis results with abnormal protein
+SELECT ua_id, order_id, ph, protein, other_findings
+FROM urinalysis_results
+WHERE protein <> 'Negative'
+ORDER BY protein;
 
--- Q8: List all fecalysis results with parasite detection
-SELECT p.first_name, p.last_name, f.appearance, f.parasite_id, f.other_findings
-FROM fecalysis_results f
-JOIN test_orders o ON f.order_id = o.order_id
-JOIN patients p ON o.patient_id = p.patient_id
-WHERE f.parasite_id != 'None'
-ORDER BY f.parasite_id;
-
--- Q9: Show pending or cancelled orders (Status filter)
-SELECT o.order_id, p.first_name, p.last_name, t.test_name, o.order_date, o.status
-FROM test_orders o
-JOIN patients p ON o.patient_id = p.patient_id
-JOIN test_catalog t ON o.test_id = t.test_id
-WHERE o.status IN ('PENDING', 'CANCELLED')
-ORDER BY o.order_date;
-
--- Q10: Get patient registration timeline (Date functions)
-SELECT patient_id, CONCAT(first_name, ' ', last_name) AS patient_name, 
-       DATE(registered_at) AS reg_date, 
-       DATE_FORMAT(registered_at, '%M %Y') AS reg_month
-FROM patients
-ORDER BY registered_at;
+-- Q10: Fecalysis results with parasite detection
+SELECT fa_id, order_id, appearance, parasite_id, other_findings
+FROM fecalysis_results
+WHERE parasite_id <> 'None'
+ORDER BY parasite_id;
 
 
 -- =====================================================
@@ -197,24 +187,12 @@ SET contact = '09179998888',
     address = 'Updated: Makati City, Metro Manila'
 WHERE patient_id = 'PAT-001';
 
--- Verify the update:
-SELECT patient_id, first_name, last_name, contact, address 
-FROM patients WHERE patient_id = 'PAT-001';
-
 -- Q19: UPDATE - Mark pending orders as completed
 UPDATE test_orders
 SET status = 'COMPLETED',
     created_at = CURRENT_TIMESTAMP
 WHERE status = 'PENDING'
   AND order_date <= CURDATE() - INTERVAL 7 DAY;
-
--- Verify the update:
-SELECT order_id, patient_id, status, order_date 
-FROM test_orders 
-WHERE status = 'COMPLETED' 
-ORDER BY order_date DESC 
-LIMIT 5;
-
 
 -- =====================================================
 -- SECTION 6: DELETE QUERIES (2 Required)
@@ -225,25 +203,7 @@ LIMIT 5;
 DELETE FROM test_orders
 WHERE status = 'CANCELLED';
 
--- Verify deletion:
-SELECT COUNT(*) AS remaining_cancelled 
-FROM test_orders 
-WHERE status = 'CANCELLED';
-
--- Q21: DELETE - Remove test records for a specific patient (Soft delete alternative shown)
--- OPTION A: Hard delete (use with caution)
--- DELETE FROM test_orders WHERE patient_id = 'PAT-999';
-
--- OPTION B: Soft delete (recommended - just update status)
-UPDATE test_orders
-SET status = 'CANCELLED',
-    created_at = CURRENT_TIMESTAMP
-WHERE patient_id = 'PAT-999'  -- Non-existent ID, safe for demo
-  AND order_date < '2023-01-01';
-
--- Verify: Show patient's order history
-SELECT o.order_id, t.test_name, o.status, o.order_date
-FROM test_orders o
-JOIN test_catalog t ON o.test_id = t.test_id
-WHERE o.patient_id = 'PAT-004'
-ORDER BY o.order_date;
+-- Q21: DELETE - Remove a specific test order for a patient
+DELETE FROM test_orders
+WHERE patient_id = 'PAT-004'
+  AND test_id = 3;
