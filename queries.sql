@@ -188,7 +188,6 @@ SET contact = '09179998888',
 WHERE patient_id = 'PAT-001';
 
 -- Q19: UPDATE - Mark pending orders as completed
--- Note: Schema has only created_at; this update changes status only and leaves timestamps unchanged
 UPDATE test_orders
 SET status = 'COMPLETED'
 WHERE status = 'PENDING'
@@ -204,7 +203,7 @@ DELETE FROM test_orders
 WHERE status = 'CANCELLED';
 
 -- Q21: DELETE - Remove a specific test order for a patient
--- Example cleanup: remove PAT-004's fecalysis order (verify test_id in test_catalog before running)
+-- Example cleanup: remove PAT-004's fecalysis order
 DELETE FROM test_orders
 WHERE patient_id = 'PAT-004'
-  AND test_id = 3;
+  AND test_id = (SELECT test_id FROM test_catalog WHERE test_name = 'FECALYSIS');
