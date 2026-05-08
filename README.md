@@ -3,7 +3,7 @@ Diagnostic Clinic Database & CRUD Interface
 
 ## ️ Tech Stack
 - **DBMS:** MySQL (XAMPP)
-- **Backend/UI**: ---
+- **Backend/UI**: Python (Flask) + Jinja templates
 - **Version Control:** GitHub
 
 ## 📥 Setup Instructions
@@ -13,6 +13,14 @@ Diagnostic Clinic Database & CRUD Interface
 4. Click **Import** → Choose `database/schema.sql` → Click **Go**
 5. Click **Import** again → Choose `database/seed.sql` → Click **Go**
 6. Verify: Browse `patients` table → should show 20 records
+
+## ▶️ Run the UI
+1. Install Python 3.
+2. Install dependencies:
+   - `pip install Flask PyMySQL`
+3. From the repo root, run:
+   - `python app.py`
+4. Open `http://localhost:5000` in your browser.
 
 ## 👥 Team Roles & Tasks
 | Member | Responsibility |
