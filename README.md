@@ -25,9 +25,9 @@ Diagnostic Clinic Database & CRUD Interface
 ## 👥 Team Roles & Tasks
 | Member | Responsibility |
 |--------|----------------|
-| [Name] | Database Design, Normalization, SQL Queries |
-| [Name] | UI |
-| [Name] | Documentation, ERD, Presentation |
+| Sigfrid | Database Design, Normalization, SQL Queries |
+| Sigfrid | UI |
+| Hansel, Jerwin, Lenuel, Camilla | Documentation, ERD, Presentation |
 
 ## 📋 Rubric Alignment
 - ✅ 6 Tables (5–8 required) | ✅ UNF→3NF Normalization | ✅ 20+ Records/Table
