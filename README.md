@@ -15,7 +15,7 @@ Diagnostic Clinic Database & CRUD Interface
 6. Verify: Browse `patients` table → should show 20 records
 
 ## ▶️ Run the UI
-1. Install Python 3.8+ (required by recent Flask releases) from https://www.python.org/downloads/.
+1. Install Python 3.10+ (supported version for recent Flask releases) from https://www.python.org/downloads/.
 2. Install dependencies:
    - `pip install Flask PyMySQL`
 3. From the repo root, run:
